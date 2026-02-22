@@ -6,9 +6,9 @@ from database import cursor, conn, add_user, update_streak
 from datetime import date
 from database import get_top_users
 import database
+import os
 
-TOKEN = "8276244835:AAGDyMwY01nqyDXhmaJ2XhIuFzNPchpE5TU"
-bot = telebot.TeleBot(TOKEN)
+TOKEN = os.environ["TOKEN"]
 
 # Словарь, чтобы хранить выбор цели временно
 user_goals = {}
@@ -107,7 +107,7 @@ schedule.every().day.at("12:00").do(reminder)
 schedule.every().day.at("16:00").do(reminder)
 schedule.every().day.at("20:00").do(reminder)
 
-bot.message_handler(commands=['me'])
+@bot.message_handler(commands=['me'])
 def my_stats(message):
     user = database.get_user_info(message.chat.id)
     
@@ -141,4 +141,4 @@ def week_history(message):
 # Запускаем бота и планировщик
 import threading
 threading.Thread(target=run_schedule).start()
-bot.infinity_polling()
+bot.infinity_polling(skip_pending=True)
