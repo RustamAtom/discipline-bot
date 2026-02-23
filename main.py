@@ -9,6 +9,7 @@ import database
 import os
 
 TOKEN = os.environ["TOKEN"]
+bot = telebot.TeleBot(TOKEN)
 
 # Словарь, чтобы хранить выбор цели временно
 user_goals = {}
